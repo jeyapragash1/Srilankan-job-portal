@@ -2,8 +2,96 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <display-name>SL_Job</display-name>
+    <display-name>Sri Lankan Job Portal</display-name>
 
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>false</secure> <!-- Set to true in production with HTTPS -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- Welcome File List -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Error Pages -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error/500.jsp</location>
+    </error-page>
+
+    <!-- Security Constraints -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Protected Area</web-resource-name>
+            <url-pattern>/dashboard.jsp</url-pattern>
+            <url-pattern>/profile.jsp</url-pattern>
+            <url-pattern>/postJob.jsp</url-pattern>
+            <url-pattern>/adminDashboard.jsp</url-pattern>
+        </web-resource-collection>
+        <!-- Uncomment for SSL/TLS enforcement in production -->
+        <!-- <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint> -->
+    </security-constraint>
+
+    <!-- Character Encoding Filter -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>com.jobportal.filters.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Authentication Filter -->
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.jobportal.filters.AuthenticationFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/dashboard.jsp</url-pattern>
+        <url-pattern>/profile.jsp</url-pattern>
+        <url-pattern>/postJob</url-pattern>
+        <url-pattern>/apply</url-pattern>
+        <url-pattern>/applications.jsp</url-pattern>
+    </filter-mapping>
+
+    <!-- CSRF Protection Filter -->
+    <filter>
+        <filter-name>CSRFFilter</filter-name>
+        <filter-class>com.jobportal.filters.CSRFFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>CSRFFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Servlet Definitions -->
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
@@ -13,4 +101,10 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!-- Context Parameters -->
+    <context-param>
+        <param-name>appVersion</param-name>
+        <param-value>2.0.0</param-value>
+    </context-param>
 </web-app>
