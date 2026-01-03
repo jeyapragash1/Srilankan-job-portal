@@ -34,7 +34,7 @@ An **enterprise-grade** job portal platform designed to connect students, gradua
 - 🔒 **Security Auditing** with activity logs
 - ⚙️ **System Configuration** management
 
-### 🏆 What Makes This A+ Grade?
+### 🏆 What are the features of this project?
 
 #### Security Excellence
 - ✅ **BCrypt Password Hashing** (12 rounds)
